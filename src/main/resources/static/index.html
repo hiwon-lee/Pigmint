@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pigmint - 나의 가계부</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+<h1>나의 가계부 내역 🐷</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>날짜</th>
+        <th>내용</th>
+        <th>금액</th>
+        <th>메모</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ledger : ${ledgers}">
+        <td th:text="${ledger.id}">1</td>
+        <td th:text="${ledger.transactionDate}">2025-08-06</td>
+        <td th:text="${ledger.description}">점심값</td>
+        <td th:text="${ledger.amount}">8000</td>
+        <td th:text="${ledger.memo}">국밥</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
