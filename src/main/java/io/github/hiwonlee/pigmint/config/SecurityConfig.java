@@ -4,6 +4,7 @@ import io.github.hiwonlee.pigmint.config.oauth.CustomOAuth2UserService; // 이 �
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -14,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     // 소셜 로그인 성공 후 사용자 정보를 처리할 서비스를 주입받습니다.
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final @Lazy CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
