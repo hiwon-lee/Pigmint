@@ -1,41 +1,19 @@
 spring:
-  # --- Datasource 설정 ---
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${RDS_URL}:${RDS_PORT}/${RDS_DB_NAME}
-    # 🚨 주의: 이 부분은 DB 사용자 이름(username)이 와야 합니다.
-    username: ${RDS_DB_HOST} 
+    url: jdbc:mysql://${RDS_URL}:${RDS_PORT}/${RDS_DB_NAME}?createDatabaseIfNotExist=true
+    username: ${RDS_DB_HOST}
     password: ${RDS_DB_PASSWORD}
   mvc:
     static-path-pattern: /static/**
 
-  # --- Security 설정 ---
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: ${KAKAO_CLIENT_ID}
-            client-secret: ${KAKAO_CLIENT_SECRET}
-            redirect-uri: ${KAKAO_REDIRECT_URI}
-            client-authentication-method: client_secret_post
-            authorization-grant-type: authorization_code
-            scope:
-              - profile_image
-              - profile_nickname
-              - account_email
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
-
-# --- Actuator 설정 ---
 management:
+  server:
+    base-path: /actuator
+    exposure:
+      include: health
   endpoints:
     web:
-      base-path: /actuator
       exposure:
         include: health
   health:
@@ -46,3 +24,26 @@ management:
           DOWN: 503
           OUT_OF_SERVICE: 503
           UNKNOWN: 500
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao: # 'kakao'라는 이름으로 클라이언트 등록
+            client-id: ${KAKAO_CLIENT_ID} # 카카오 REST API 키
+            client-secret: ${KAKAO_CLIENT_SECRET} # 클라이언트 시크릿 (보안 강화 시 사용)
+            redirect-uri: ${KAKAO_REDIRECT_URI} # 카카오에 등록한 Redirect URI
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_image
+              - profile_nickname
+              - account_email
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+server:
+  url: ${SERVER_PROD_URL}
