@@ -15,20 +15,25 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private String picture;
+    private String provider;
+    private String providerId;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture, String provider, String providerId) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.provider = provider;
+        this.providerId = providerId;
+
     }
 
     // 소셜 플랫폼 이름(registrationId)에 따라 적절한 of... 메소드를 호출하여 OAuthAttributes 객체를 생성합니다.
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         if ("kakao".equals(registrationId)) {
-            return ofKakao("id", attributes);
+            return ofKakao(userNameAttributeName, attributes);
         }
         // 추후 구글 로그인을 추가할 경우를 대비
         // if ("google".equals(registrationId)) {
@@ -50,6 +55,8 @@ public class OAuthAttributes {
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAccount.get("email"))
                 .picture((String) kakaoProfile.get("profile_image_url"))
+                .provider("kakao")
+                .providerId(String.valueOf(attributes.get("id"))) // 카카오 응답의 "id" 필드가 고유 ID
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -62,6 +69,8 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
+                .provider(provider)
+                .providerId(providerId)
                 .role(Role.USER) // 가입 시 기본 권한은 USER로 설정
                 .build();
     }
