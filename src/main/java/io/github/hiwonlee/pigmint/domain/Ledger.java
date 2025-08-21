@@ -18,6 +18,11 @@ public class Ledger {
     @Column(name = "ledger_id") // DB 테이블의 컬럼 이름을 지정합니다.
     private Long id;
 
+    // 'User' 엔티티와의 관계를 정의합니다.
+    @ManyToOne(fetch = FetchType.LAZY) // Ledger(N) : User(1) 관계
+    @JoinColumn(name = "user_id", nullable = false) // DB에 'user_id'라는 이름으로 Foreign Key 생성
+    private User user;
+
     @Column(nullable = false) // 이 컬럼은 비어있을 수 없다고(NOT NULL) 지정합니다.
     private String description; // 내용 (예: "점심 식사")
 
@@ -29,11 +34,31 @@ public class Ledger {
     @Column(nullable = false)
     private LocalDate transactionDate; // 거래 날짜
 
-    @Builder // 빌더 패턴으로 객체를 생성할 수 있게 해줍니다. 데이터 넣을 때 편해요.
-    public Ledger(String description, Integer amount, String memo, LocalDate transactionDate) {
-        this.description = description;
-        this.amount = amount;
-        this.memo = memo;
+    @Column(nullable = false)
+    private String type; // "INCOME" 또는 "EXPENSE"
+
+    @Column(nullable = false)
+    private String category;
+
+
+
+    @Builder // 빌더 패턴으로 객체를 생성할 수 있게 함. 데이터 넣을 때 편리
+    public Ledger(User user, LocalDate transactionDate, String type, String category, Integer amount, String description, String memo) {
+        this.user = user;
         this.transactionDate = transactionDate;
+        this.type = type;
+        this.category = category;
+        this.amount = amount;
+        this.description = description;
+        this.memo = memo;
+    }
+
+    public void update(LocalDate transactionDate, String type, String category, Integer amount, String description, String memo) {
+        this.transactionDate = transactionDate;
+        this.type = type;
+        this.category = category;
+        this.amount = amount;
+        this.description = description;
+        this.memo = memo;
     }
 }
