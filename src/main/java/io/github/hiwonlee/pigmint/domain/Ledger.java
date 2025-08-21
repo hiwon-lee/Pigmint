@@ -23,6 +23,10 @@ public class Ledger {
     @JoinColumn(name = "user_id", nullable = false) // DB에 'user_id'라는 이름으로 Foreign Key 생성
     private User user;
 
+    // Ledger가 삭제되면 diary도 함께 삭제
+    @OneToOne(mappedBy = "ledger", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Diary diary;
+
     @Column(nullable = false) // 이 컬럼은 비어있을 수 없다고(NOT NULL) 지정합니다.
     private String description; // 내용 (예: "점심 식사")
 
@@ -39,6 +43,7 @@ public class Ledger {
 
     @Column(nullable = false)
     private String category;
+
 
 
 

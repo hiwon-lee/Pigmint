@@ -4,7 +4,8 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
-# ... spring 설정 ...
+
+  # ... spring 설정 ...
 
   # JWT 설정을 위한 섹션 추가
   security:

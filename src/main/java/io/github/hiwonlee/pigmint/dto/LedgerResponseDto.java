@@ -13,6 +13,7 @@ public class LedgerResponseDto {
     private final String category;
     private final String description;
     private final Integer amount;
+    private final Long diaryId;
 
     public LedgerResponseDto(Ledger entity) {
         this.id = entity.getId();
@@ -21,5 +22,6 @@ public class LedgerResponseDto {
         this.category = entity.getCategory();
         this.description = entity.getDescription();
         this.amount = entity.getAmount();
+        this.diaryId = (entity.getDiary() != null) ? entity.getDiary().getId() : null;
     }
 }

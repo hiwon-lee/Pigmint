@@ -55,7 +55,7 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
         Date accessTokenExpiresIn = new Date(now + 3600000); // 1시간
 
-        // JWT의 주제(subject)로 파싱한 이메일을 사용합니다.
+        // JWT의 주제(subject)로 파싱한 이메일을 사용
         return Jwts.builder()
                 .setSubject(email)
                 .claim("auth", authorities)
@@ -81,6 +81,7 @@ public class JwtTokenProvider {
 
         // UserDetails 객체(Spring Security의 표준 사용자 객체)를 만들어서 Authentication 리턴
         UserDetails principal = new User(claims.getSubject(), "", authorities);
+        System.out.println("유저디테일"+ principal.getUsername());
         // 지금은 OAuth2User 정보를 직접 사용하지 않으므로, claims에서 subject(email)를 가져와 사용
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }

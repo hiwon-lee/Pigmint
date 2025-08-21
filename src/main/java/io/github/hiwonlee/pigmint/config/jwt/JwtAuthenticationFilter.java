@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // 요청 헤더에서 "Bearer " 부분을 제외하고 토큰 값만 추출합니다.
+    // 요청 헤더에서 "Bearer " 부분을 제외하고 토큰 값만 추출
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

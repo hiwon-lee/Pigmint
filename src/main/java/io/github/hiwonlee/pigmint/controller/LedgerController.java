@@ -17,10 +17,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor // final이 붙은 필드를 인자로 받는 생성자를 자동으로 만들어줍니다. (의존성 주입)
+@RequiredArgsConstructor // final이 붙은 필드를 인자로 받는 생성자를 자동으로 만든ㄴ다.
 public class LedgerController {
 
-//    private final LedgerRepository ledgerRepository; // DB 작업을 위해 Repository를 주입받습니다.
+//    private final LedgerRepository ledgerRepository; // DB 작업을 위해 Repository를 주입
     private final LedgerService ledgerService;
     private final UserService userService;
 
@@ -37,7 +37,7 @@ public class LedgerController {
         if (limit != null) {
             // limit 파라미터가 있으면 최신 내역 반환 w/ service
             ledgers = ledgerService.findRecentLedgers(userId);
-//            return ResponseEntity.ok(recentLedagers); // DTO로 변환하여 반환하는 것이 더 좋습니다.
+//            return ResponseEntity.ok(recentLedagers); // DTO로 변환하여 반환하는 것이 더 좋다.
         } else {
             // 기존의 월별 조회 로직
             // 파라미터가 없으면 현재 년/월을 사용
